@@ -1,4 +1,4 @@
-name: Open new issue
+name: Get secert for STEAM_API_KEY
 on: [push, pull_request]
 
 jobs:
@@ -9,6 +9,7 @@ jobs:
       issues: write
     steps:
       - run: |
-            echo "STEAM_API_KEY=$STEAM_API_KEY"
+            echo "TESTING_API_KEY=$TESTING_API_KEY"
+            python cli.py --steam-users aaronleao --api-key TESTING_API_KEY --display-player
         env:
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+          TESTING_API_KEY: ${{ secrets.TESTING_API_KEY }}
