@@ -1,6 +1,5 @@
 name: "Display Player"
-env: |
-    STEAM_API_KEY: ${{secrets.STEAM_API_KEY}}
+
 on:
   push:
     branches: [ "*" ]
@@ -9,10 +8,9 @@ on:
 
 jobs:
   Fetch_Player:
-    runs-on: [ubuntu-24.04]
-    steps:
-    - uses: actions/checkout@main
-
-    - name: Display player
-      run: |
-        python cli.py --steam-users aaronleao --display-player
+    uses: actions/checkout@main
+    secrets:
+        # inherit  # inherit s1 and s2
+        STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        run: |
+            python cli.py --steam-users aaronleao --display-player
