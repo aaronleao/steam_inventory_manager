@@ -1,15 +1,17 @@
 name: Get secert for STEAM_API_KEY
 on: [push, pull_request]
 
+env:
+  TESTING_API_KEY: ${{ secrets.TESTING_API_KEY }}
+
 jobs:
   open-issue:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
+    # permissions:
+    #   contents: read
+    #   issues: write
     steps:
-      - run: |
+        - uses: actions/checkout@main
+        - run: |
             echo "TESTING_API_KEY=$TESTING_API_KEY"
             python cli.py --steam-users aaronleao --api-key TESTING_API_KEY --display-player
-        env:
-          TESTING_API_KEY: ${{ secrets.TESTING_API_KEY }}
