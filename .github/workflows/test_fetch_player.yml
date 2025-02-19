@@ -9,4 +9,4 @@ jobs:
       - name: Set STEAM_API_KEY as env variable
         env:
           STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-        run: python cli.py --steam-users aaronleao --display-player
+        run: echo "Fetched secret: $STEAM_API_KEY"
