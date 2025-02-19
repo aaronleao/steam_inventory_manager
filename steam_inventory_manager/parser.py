@@ -67,7 +67,7 @@ def get_args():
         "--app-id", type=str, default="570", help="The app ID (Dota 2=570)."
     )
     parser.add_argument(
-        "--api-key", default=constants.STEAM_API_KEY_env, type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
+        "--api-key", action=CustomAction, default=constants.STEAM_API_KEY_env, type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
     )
     parser.add_argument(
         "--overwrite", action="store_true", help="Overwrite the inventory files."
