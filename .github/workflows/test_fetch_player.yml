@@ -1,12 +1,15 @@
 name: fetch-player
 on: [push, pull_request]
+
 jobs:
-  fetch_player:
-    name: Fetch and Echo Player Secret
+  open-issue:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     steps:
-      - uses: actions/checkout@v4
-      - name: Set STEAM_API_KEY as env variable
+      - run: |
+          echo "Fetched secret: $STEAM_API_KEY"
+
         env:
-          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
-        run: echo "Fetched secret: $STEAM_API_KEY"
+          GH_TOKEN: ${{ secrets.STEAM_API_KEY }}
