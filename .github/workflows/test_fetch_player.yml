@@ -1,12 +1,14 @@
-name: fetch-player
-on: [push, pull_request]
-
-env: 
-  STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+name: Open new issue
+on: workflow_dispatch
 
 jobs:
-    get_secret:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v4
-          - run: echo "Fetched secret: $STEAM_API_KEY"
+  open-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - run: |
+            echo "STEAM_API_KEY=$STEAM_API_KEY"
+        env:
+          STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
