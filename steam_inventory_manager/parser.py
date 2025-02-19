@@ -22,6 +22,7 @@ def get_env_api_key(env:str):
 class CustomAction(argparse.Action):
     """
     Specialized action for handling --api-key arg
+    TODO remove it, depacated Class
     """
     def __init__(self, option_strings, dest, nargs=None, **kwargs):
         if nargs is not None:
@@ -37,6 +38,7 @@ def check_args(args):
     """
 
     args.api_key = get_env_api_key(args.api_key)
+
     if args.steam_ids is None:
         if args.steam_users is None:
             raise SystemExit("Please provide either --profile-id or --profile-user.")
@@ -63,9 +65,8 @@ def get_args():
     parser.add_argument(
         "--app-id", type=str, default="570", help="The app ID (Dota 2=570)."
     )
-    # API shall be fetched from env STEAM_API_KEY
     parser.add_argument(
-        "--api-key", default=constants.STEAM_API_KEY_env, action=CustomAction ,type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
+        "--api-key", default=constants.STEAM_API_KEY_env, type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
     )
     parser.add_argument(
         "--overwrite", action="store_true", help="Overwrite the inventory files."

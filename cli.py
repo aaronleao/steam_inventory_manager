@@ -40,9 +40,9 @@ def main():
         if args.display_inventory:
             p.print_inventory(args.display_inventory_full)
     
-    players[0].update_inventory_json_descriptions()
+    # players[0].update_inventory_json_descriptions()
 
-    filesystem_handler.write_json("saida.json", players[0].inventory_json_descriptions)
+    # filesystem_handler.write_json("saida.json", players[0].inventory_json_descriptions)
 
 if __name__ == "__main__":
     # Create cache dir
