@@ -1,12 +1,12 @@
 name: fetch-player
 on: [push, pull_request]
 
-env:
-    STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
 
+secrets: inherit
 jobs:
-  get_secret:
-    runs-on: ubuntu-latest
-    steps:
-      - run: |
+    get_secret:
+        env: STEAM_API_KEY: ${{ secrets.STEAM_API_KEY }}
+        uses: actions/checkout@v4
+        runs-on: ubuntu-latest
+        run: |
           echo "Fetched secret: $STEAM_API_KEY"
