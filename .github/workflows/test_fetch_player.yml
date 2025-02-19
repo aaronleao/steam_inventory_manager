@@ -1,0 +1,18 @@
+name: "Display Player"
+env: |
+    STEAM_API_KEY: ${{secrets.STEAM_API_KEY}}
+on:
+  push:
+    branches: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  Fetch_Player:
+    runs-on: [ubuntu-24.04]
+    steps:
+    - uses: actions/checkout@main
+
+    - name: Display player
+      run: |
+        python cli.py --steam-users aaronleao --display-player
