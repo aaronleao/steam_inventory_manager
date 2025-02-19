@@ -38,6 +38,7 @@ def check_args(args):
     """
 
     args.api_key = get_env_api_key(args.api_key)
+    print("check_args args.api_key", args.api_key)
 
     if args.steam_ids is None:
         if args.steam_users is None:
