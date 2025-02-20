@@ -5,7 +5,8 @@ run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on: [push, pull_request]
 
 env:
-    api_key: ${{ secrets.TESTING_API_KEY }}
+    # api_key: ${{ secrets.TESTING_API_KEY }}
+    api_key: "Testint text"
 
 jobs:
     get-secret:
