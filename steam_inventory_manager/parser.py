@@ -16,7 +16,8 @@ def get_env_api_key(env:str):
     """
     api_key = os.environ.get(env)
     if api_key is None:
-        raise SystemExit(f"env {env} not set. {api_key}")
+        logger.info("Environment var %s not set", env)
+        raise SystemExit(f"{env}={api_key}")
     return api_key
 
 class CustomAction(argparse.Action):
@@ -38,6 +39,7 @@ def check_args(args):
     """
 
     args.api_key = get_env_api_key(args.api_key)
+    print("check_args args.api_key", args.api_key)
 
     if args.steam_ids is None:
         if args.steam_users is None:
@@ -66,7 +68,7 @@ def get_args():
         "--app-id", type=str, default="570", help="The app ID (Dota 2=570)."
     )
     parser.add_argument(
-        "--api-key", default=constants.STEAM_API_KEY_env, type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
+        "--api-key", action=CustomAction, default=constants.STEAM_API_KEY_env, type=str, help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}"
     )
     parser.add_argument(
         "--overwrite", action="store_true", help="Overwrite the inventory files."
