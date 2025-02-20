@@ -16,7 +16,8 @@ def get_env_api_key(env:str):
     """
     api_key = os.environ.get(env)
     if api_key is None:
-        raise SystemExit(f"env {env} not set. {api_key}")
+        logger.info("Environment var %s not set", env)
+        raise SystemExit(f"{env}={api_key}")
     return api_key
 
 class CustomAction(argparse.Action):

@@ -1,18 +1,19 @@
 name: Get secert for STEAM_API_KEY
+
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+
 on: [push, pull_request]
 
-# env:
-#   TESTING_API_KEY: ${{ secrets.TESTING_API_KEY }}
+env:
+    api_key: ${{ secrets.TESTING_API_KEY }}
 
 jobs:
-  get-secret:
-    runs-on: ubuntu-latest
+    get-secret:
+        name: echo secret
+        runs-on: ubuntu-latest
+        steps:
+            -   name: get-secret
+                uses: actions/checkout@main
+            -   run: echo "api_key=$api_key"
+            # python cli.py --steam-users aaronleao --api-key TESTING_API_KEY --display-player
 
-    steps:
-      - name: Hello world action
-        env: # Or as an environment variable
-            TESTING_API_KEY: ${{ secrets.TESTING_API_KEY }}
-        uses: actions/checkout@main
-      - run: |
-            echo "TESTING_API_KEY=$TESTING_API_KEY"
-            python cli.py --steam-users aaronleao --api-key TESTING_API_KEY --display-player
