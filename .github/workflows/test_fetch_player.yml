@@ -5,8 +5,9 @@ run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on: [push, pull_request]
 
 env:
-    # api_key: ${{ secrets.TESTING_API_KEY }}
-    api_key: "Testint text"
+    api_key: ${{ secrets.TESTING_API_KEY }}
+    # api_key: "Testing text"
+    not_secret: ${{ vars.NOT_SECRET_VAR1 }}
 
 jobs:
     get-secret:
@@ -15,6 +16,8 @@ jobs:
         steps:
             -   name: get-secret
                 uses: actions/checkout@main
-            -   run: echo "api_key=$api_key"
+            -   run: |
+                    echo "api_key=$api_key"
+                    echo "not_secret=$not_secret"
             # python cli.py --steam-users aaronleao --api-key TESTING_API_KEY --display-player
 
