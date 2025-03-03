@@ -2,6 +2,7 @@
 
 # import sys
 from steam_inventory_manager import constants
+
 # from steam_inventory_manager import steam_api_handler
 
 
@@ -17,53 +18,54 @@ class Item:
             raise SystemExit("Inventory: Invalid item_description")
 
         # Steam Inventory Item keys
-        self.appid = item_description.get('appid')
-        self.classid = item_description.get('classid')
-        self.instanceid = item_description.get('instanceid')
-        self.currency = item_description.get('currency')
-        self.background_color = item_description.get('background_color')
-        self.icon_url = item_description.get('icon_url')
-        self.icon_url_large = item_description.get('icon_url_large')
-        self.descriptions = item_description.get('descriptions')
-        self.tradable = item_description.get('tradable')
-        self.name = item_description.get('name')
-        self.name_color = item_description.get('name_color')
-        self.type = item_description.get('type')
-        self.market_name = item_description.get('market_name')
-        self.market_hash_name = item_description.get('market_hash_name')
-        self.commodity = item_description.get('commodity')
-        self.market_tradable_restriction = item_description.get('market_tradable_restriction')
-        self.market_marketable_restriction = item_description.get('market_marketable_restriction')
-        self.marketable = item_description.get('marketable')
-        self.tags = item_description.get('tags')
+        self.appid = item_description.get("appid")
+        self.classid = item_description.get("classid")
+        self.instanceid = item_description.get("instanceid")
+        self.currency = item_description.get("currency")
+        self.background_color = item_description.get("background_color")
+        self.icon_url = item_description.get("icon_url")
+        self.icon_url_large = item_description.get("icon_url_large")
+        self.descriptions = item_description.get("descriptions")
+        self.tradable = item_description.get("tradable")
+        self.name = item_description.get("name")
+        self.name_color = item_description.get("name_color")
+        self.type = item_description.get("type")
+        self.market_name = item_description.get("market_name")
+        self.market_hash_name = item_description.get("market_hash_name")
+        self.commodity = item_description.get("commodity")
+        self.market_tradable_restriction = item_description.get(
+            "market_tradable_restriction"
+        )
+        self.market_marketable_restriction = item_description.get(
+            "market_marketable_restriction"
+        )
+        self.marketable = item_description.get("marketable")
+        self.tags = item_description.get("tags")
 
         # Custom Inventory Item keys
-        self.lowest_price = item_description.get('lowest_price')
-        self.median_price = item_description.get('median_price')
-        self.volume = item_description.get('volume')
+        self.lowest_price = item_description.get("lowest_price")
+        self.median_price = item_description.get("median_price")
+        self.volume = item_description.get("volume")
         self.descriptions = item_description.get("descriptions")
         self.description_values = self.get_descriptions_values()
         [self.type_desc, self.type_desc_name] = self.set_item_type()
         self.may_be_gifted_once = self.set_is_gifted_once()
 
-
         # if self.marketable and api_key:
         #     self.fetch_steam_maket_price(api_key)
 
-    def print(self, display_full_inventory: bool=False):
+    def print(self, display_full_inventory: bool = False):
         """
         Prints the item description.
         """
         may_be_gifted_once = "1" if self.may_be_gifted_once else "0"
         line = f"{self.type_desc: <12}|{self.marketable: <2}|{self.tradable: <2}|{may_be_gifted_once: <2}|{self.market_name: <40}|{self.market_hash_name: <40}|{self.type_desc_name: <30}|{self.type: <30}|{self.name: <60}|"
-        if (
-            not display_full_inventory
-            and (self.type_desc == constants.ItemType.HERO.name
-            or self.type_desc == constants.ItemType.MISC.name)
+        if not display_full_inventory and (
+            self.type_desc == constants.ItemType.HERO.name
+            or self.type_desc == constants.ItemType.MISC.name
         ):
             return
         print(line)
-
 
     def set_is_gifted_once(self) -> bool:
         """
@@ -71,7 +73,7 @@ class Item:
         """
         if self.description_values is not None:
             for value in self.description_values:
-                if  "This item may be gifted once" in value:
+                if "This item may be gifted once" in value:
                     return True
             return False
 
@@ -156,9 +158,9 @@ class Item:
     #     Fetch Item Market price
     #     """
     #     return
-        # if self.marketable:
-        #     [self.lowest_price,
-        #      self.median_price,
-        #      self.volume] = steam_api_handler.fetch_steam_market_item_price(api_key,
-        #                                                                      self.appid,
-        #                                                                      self.market_hash_name)
+    # if self.marketable:
+    #     [self.lowest_price,
+    #      self.median_price,
+    #      self.volume] = steam_api_handler.fetch_steam_market_item_price(api_key,
+    #                                                                      self.appid,
+    #                                                                      self.market_hash_name)

@@ -14,6 +14,7 @@ CONTEXT_ID = "2"  # Default context ID for most games
 INVENTORY_URL_TIMEOUT = 1000000000  # 1 second
 STEAM_API_KEY_env = "STEAM_API_KEY"
 
+
 class ItemType(Enum):
     """Enum for the item type."""
 

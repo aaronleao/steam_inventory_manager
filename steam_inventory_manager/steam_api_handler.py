@@ -20,7 +20,7 @@ def resolve_vanity(api_key: str, steam_user: str) -> str:
     response = data.get("response")
     success = response.get("success")
     if success != 1:
-        raise SystemExit(f"Failed to fetch STEAM_ID for{steam_user}")
+        raise SystemExit(f"Failed to fetch STEAM_ID for{steam_user}, {success}")
 
     steam_id = response.get("steamid")
     return steam_id
@@ -111,7 +111,9 @@ def fetch_steam_market_item_price(api_key, app_id, market_hash_name):
     # Make the request
     response = requests.get(url, params=params, timeout=constants.INVENTORY_URL_TIMEOUT)
     if response.status_code != 200:
-        logger.warning("Failed to fetch market data. Status code: %s", response.status_code)
+        logger.warning(
+            "Failed to fetch market data. Status code: %s", response.status_code
+        )
         return ["N/A", "N/A", "N/A"]
 
     # Parse the response

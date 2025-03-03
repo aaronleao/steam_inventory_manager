@@ -12,6 +12,7 @@ from steam_inventory_manager import filesystem_handler
 from steam_inventory_manager import parser
 from steam_inventory_manager import player
 
+
 def main():
     """
     Main function to handle the Steam inventory query process.
@@ -26,23 +27,23 @@ def main():
     # Get args
     args = parser.get_args()
 
+    print(args.steam_ids, args.steam_users)
+
     players = [
-                player.Player(args.api_key,
-                            steam_id,
-                            steam_user,
-                            args.overwrite,
-                            args.app_id)
-                            for steam_id, steam_user in zip(args.steam_ids, args.steam_users)  ]
+        player.Player(args.api_key, steam_id, args.overwrite, args.app_id)
+        for steam_id in args.steam_ids
+    ]
 
     for p in players:
         if args.display_player:
             p.print()
         if args.display_inventory:
             p.print_inventory(args.display_inventory_full)
-    
+
     # players[0].update_inventory_json_descriptions()
 
     # filesystem_handler.write_json("saida.json", players[0].inventory_json_descriptions)
+
 
 if __name__ == "__main__":
     # Create cache dir

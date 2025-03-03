@@ -23,9 +23,9 @@ class Player:
         self,
         api_key: str,
         steam_id: str,
-        steam_user: str,
         overwrite: bool = False,
         app_id: str = constants.APP_NAME,
+        steam_user: str = None,
     ):
         """
         Initialize the player data.
@@ -34,10 +34,10 @@ class Player:
         self.app_id = app_id
         self.steam_id = (
             steam_id
-            if steam_id is not None and steam_user
+            if steam_id is not None and steam_user is None
             else steam_api_handler.resolve_vanity(api_key, steam_user)
         )
-        self.steam_user = steam_user
+        self.steam_user = ""
         self.player_json_path = self.get_player_summaries_path(self.steam_id)
         self.inventory_json_path = self.get_inventory_json_path(
             self.steam_id, self.app_id
@@ -145,6 +145,7 @@ class Player:
         """
         self.persona_name = self.player_summaries.get("personaname")
         self.profile_url = self.player_summaries.get("profileurl")
+        self.steam_user = self.get_user_name_from_url()
         self.avatar = self.player_summaries.get("avatar")
         self.avatar_medium = self.player_summaries.get("avatarmedium")
         self.avatar_full = self.player_summaries.get("avatarfull")
@@ -187,9 +188,12 @@ class Player:
         """
         Load inventory from inventory dict
         """
-        self.inventory = [item.Item(item_description) for item_description in self.inventory_json_descriptions]
+        self.inventory = [
+            item.Item(item_description)
+            for item_description in self.inventory_json_descriptions
+        ]
 
-    def print_inventory(self, display_full_inventory:bool = False):
+    def print_inventory(self, display_full_inventory: bool = False):
         """
         Print inventory items
         """
@@ -197,11 +201,22 @@ class Player:
             i.print(display_full_inventory)
 
     def update_inventory_json_descriptions(self):
+        """
+        Update Inventory JSON
+        """
         for i in self.inventory:
             for d in self.inventory_json_descriptions:
                 # print("update ", i.classid, d.get("classid"))
-                if (i.classid == d.get("classid")) and (i.instanceid == d.get("instanceid")):
+                if (i.classid == d.get("classid")) and (
+                    i.instanceid == d.get("instanceid")
+                ):
                     # print("update", i.classid, d.get("classid"), i.classid == d.get("classid"), i.instanceid, d.get("instanceid"), i.instanceid == d.get("instanceid"))
-                    d['lowest_price'] = i.lowest_price
-                    d['median_price'] = i.median_price
-                    d['volume'] = i.volume
+                    d["lowest_price"] = i.lowest_price
+                    d["median_price"] = i.median_price
+                    d["volume"] = i.volume
+
+    def get_user_name_from_url(self):
+        """
+        Split Custom URL to get the username
+        """
+        return self.profile_url.split("/")[4]
