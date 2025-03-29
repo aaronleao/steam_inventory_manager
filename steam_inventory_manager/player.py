@@ -193,12 +193,13 @@ class Player:
             for item_description in self.inventory_json_descriptions
         ]
 
-    def print_inventory(self, display_full_inventory: bool = False):
+    def print_inventory(self, args):
         """
         Print inventory items
         """
-        for i in self.inventory:
-            i.print(display_full_inventory)
+        inventory_to_print = self.get_filtered_inventory(args)
+        for i in inventory_to_print:
+            i.print(args)
 
     def update_inventory_json_descriptions(self):
         """
@@ -220,3 +221,50 @@ class Player:
         Split Custom URL to get the username
         """
         return self.profile_url.split("/")[4]
+
+    def get_filtered_inventory(self, args):
+        """
+        Return filtered inventory.
+        1) Get the base inventory
+        2) From the first selection aplly the secondary filters
+        """
+
+        inventory = self.get_inventory_full_or_filtered(args.display_inventory_full)
+
+        if args.filter_by_hero:
+            inventory = [item for item in inventory if item.match_hero(args.filter_by_hero)]
+        if args.filter_by_type:
+            inventory = [item for item in inventory if item.match_type(args.filter_by_type)]
+        if args.filter_by_marketable:
+            inventory = [item for item in inventory if item.marketable]
+        if args.filter_by_tradable:
+            inventory = [item for item in inventory if item.tradable]
+        if args.filter_by_giftable:
+            inventory = [item for item in inventory if item.may_be_gifted_once]
+
+        return inventory
+        
+
+    # elif args.pattern_2:
+    #     inventory = [item for item in base_inventory if pattern_2.match(item)]
+    # else:
+    #     inventory = base_inventory
+
+
+    def get_inventory_full_or_filtered(self, display_inventory_full:bool = False):
+        """
+        Get all items or only default items
+        1) Filter for full inventory: Get either all items of any type, or items NOT (MISC or HERO)
+        """
+
+        inventory = []
+        if (display_inventory_full):
+            inventory = self.inventory
+        else:            
+            for item in self.inventory:
+                if (item.type_desc == constants.ItemType.HERO.name
+                    or item.type_desc == constants.ItemType.MISC.name):
+                    continue
+                inventory.append(item)
+
+        return inventory

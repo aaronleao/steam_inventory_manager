@@ -98,6 +98,38 @@ def get_args():
         help="Display also {HERO, MISC} items.",
     )
 
+    group = parser.add_argument_group('filters', description="opt1 OR opt2 ...")
+
+    group.add_argument(
+        "--filter-by-hero",
+        type=str,
+        help="Filter items by hero",
+    )
+
+    group.add_argument(
+        "--filter-by-type",
+        type=str,
+        help="Filter items by type",
+    )
+
+    group.add_argument(
+        "--filter-by-marketable",
+        action="store_true",
+        help="Filter Marketable items",
+    )
+
+    group.add_argument(
+        "--filter-by-tradable",
+        action="store_true",
+        help="Filter tradable items",
+    )
+
+    group.add_argument(
+        "--filter-by-giftable",
+        action="store_true",
+        help="Filter Giftable items",
+    )
+
     args = parser.parse_args()
     check_args(args)
     return args

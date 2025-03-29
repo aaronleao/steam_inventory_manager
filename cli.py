@@ -38,7 +38,7 @@ def main():
         if args.display_player:
             p.print()
         if args.display_inventory:
-            p.print_inventory(args.display_inventory_full)
+            p.print_inventory(args)
 
     # players[0].update_inventory_json_descriptions()
 

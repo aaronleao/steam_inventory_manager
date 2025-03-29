@@ -153,6 +153,21 @@ class Item:
 
         return [constants.ItemType.MISC.name, constants.ItemType.MISC.value]
 
+    def match_hero(self, filter_by_hero):
+        """
+        Return if the item matches the hero in arg
+        """
+        if filter_by_hero and self.type_desc_name == filter_by_hero:
+            return True
+
+    def match_type(self, filter_by_type):
+        """
+        Return if the item matches the hero in arg
+        """
+        if filter_by_type and self.type_desc == filter_by_type:
+            return True
+
+
     # def fetch_steam_maket_price(self, api_key: str):
     #     """
     #     Fetch Item Market price
