@@ -2,8 +2,9 @@
 
 ## Deps
 ```shell
-pip 
-pip install platformdirs
+python -m venv .env
+source .env/bin/activate
+python -m pip install -r requirements.txt
 ```
 
 ## Fetch Steam profile ID
@@ -14,14 +15,13 @@ pip install platformdirs
 
 ## How to run
 ```shell
-set env variable $steam_api_key
-python steam_inventory_manager/cli.py --profile-id 123123123 --api-key AT328ATTE2888
+set env variable $STEAM_API_KEY
+python steam_inventory_manager/cli.py --profile-users user1 ... userN
 ```
-<!-- python steam_inventory_manager/cli.py --profile-id $steam_profile_id --api-key $steam_api_key -->
+`[deprecated] python steam_inventory_manager/cli.py --profile-id 123123123`
 
 ## TODO
-
-- [ ] Add option to display the whole inventory, HERO and MISC as well.
+- [x] Add option to display the whole inventory, HERO and MISC as well.
 - [ ] Refactor display_inventory function
 - [ ] Add Github actions to perform system level test
 - [ ] Generate page with the inventory periodically

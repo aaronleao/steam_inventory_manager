@@ -1,6 +1,7 @@
 """This module contains functions for fetching inventory data from the Steam API."""
 
 import sys
+import time
 import logging
 import requests
 from steam_inventory_manager import constants
@@ -59,13 +60,33 @@ def fetch_inventory(steam_id: str, app_id: str, api_key: str, context_id: str) -
     params = {"key": api_key} if api_key else {}
 
     while True:
-        # Make the API request
-        response = requests.get(
-            url, params=params, timeout=constants.INVENTORY_URL_TIMEOUT
-        )
-        if response.status_code != 200:
+        max_retries = 5
+        retries = 0
+
+        while retries < max_retries:
+            # Make the API request
+            response = requests.get(
+                url, params=params, timeout=constants.INVENTORY_URL_TIMEOUT
+            )
+
+            if response.status_code == 429:
+                sleep_time = 2 ** retries
+                logger.warning(
+                    "Rate limited (429). Retrying in %s seconds...", sleep_time
+                )
+                time.sleep(sleep_time)
+                retries += 1
+                continue
+
+            if response.status_code != 200:
+                raise SystemExit(
+                    f"Failed to fetch online inventory. Status code: {response.status_code}"
+                )
+            
+            break
+        else:
             raise SystemExit(
-                f"Failed to fetch online inventory. Status code: {response.status_code}"
+                "Failed to fetch online inventory after maximum retries. Status code: 429"
             )
 
         # Parse the JSON response

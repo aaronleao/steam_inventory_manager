@@ -82,6 +82,9 @@ def get_args():
         help=f"env variable with your Steam API key. default={constants.STEAM_API_KEY_env}",
     )
     parser.add_argument(
+        "--steamapis", action="store_true", help="Use steamapis.com endpoints instead of Steam API."
+    )
+    parser.add_argument(
         "--overwrite", action="store_true", help="Overwrite the inventory files."
     )
     parser.add_argument(
